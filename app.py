@@ -37,7 +37,6 @@ def load_tools():
         if filename.endswith(".py") and filename != "__init__.py":
             module_name = filename[:-3]
             module_path = os.path.join(TOOLS_DIR, filename)
-
             spec = importlib.util.spec_from_file_location(module_name, module_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
@@ -76,7 +75,7 @@ def ask():
             messages.append(ToolMessage(tool_response, tool_call_id=tool_call["id"]))
 
     final_response = llm_with_tools.invoke(messages)
-    return render_template("index.html", response=final_response.content)
+    return str(final_response.content)
 
 @app.route("/add_tools", methods=["POST"])
 def add_tools():
@@ -120,4 +119,4 @@ def index():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000, debug=True)
+    app.run(host="0.0.0.0", port=3333, debug=True)
